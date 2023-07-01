@@ -1,5 +1,6 @@
 use dotenvy_macro::dotenv;
 use games_locker::config::Config;
+use games_locker::run;
 
 #[tokio::main]
 async fn main() {
@@ -11,4 +12,8 @@ async fn main() {
             return;
         }
     };
+    match run(&config).await {
+        Ok(_) => println!("server closed"),
+        Err(error) => eprintln!("Server closed due to error: {:?}", error.to_string()),
+    }
 }

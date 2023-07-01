@@ -6,7 +6,7 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(port: String) -> Result<Self> {
+    pub fn new(port: &str) -> Result<Self> {
         let port = port.parse()?;
         let address = [0, 0, 0, 0];
 
