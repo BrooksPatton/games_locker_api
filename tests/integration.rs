@@ -1,6 +1,8 @@
+use dotenvy_macro::dotenv;
 use eyre::Result;
 use rand::prelude::*;
 use reqwest::StatusCode;
+use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 
 const BASE_URL: &str = "http://localhost:3000";
@@ -32,6 +34,9 @@ async fn create_account() -> Result<()> {
 
     assert_eq!(status, StatusCode::CREATED);
 
+    let db = connect().await?;
+
+    db.close().await?;
     Ok(())
 }
 
@@ -40,4 +45,11 @@ struct NewUser {
     email: String,
     password: String,
     nickname: String,
+}
+
+const DB: &str = dotenv!("DB_URI");
+
+pub async fn connect() -> Result<DatabaseConnection> {
+    let database_connection = Database::connect(DB).await?;
+    Ok(database_connection)
 }
