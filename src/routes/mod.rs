@@ -9,9 +9,12 @@ use eyre::Result;
 use healthcheck::healthcheck;
 use user::create_user;
 
-pub async fn add_routes(router: Router) -> Result<Router> {
-    let router = router
+use crate::AppState;
+
+pub async fn create_router(state: AppState) -> Result<Router> {
+    let router = Router::new()
         .route("/healthcheck", get(healthcheck))
-        .route("/create_user", post(create_user));
+        .route("/create_user", post(create_user))
+        .with_state(state);
     Ok(router)
 }

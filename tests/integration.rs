@@ -1,7 +1,9 @@
 use dotenvy_macro::dotenv;
+use entity::prelude::Users;
 use eyre::Result;
 use rand::prelude::*;
 use reqwest::StatusCode;
+use sea_orm::prelude::*;
 use sea_orm::{Database, DatabaseConnection};
 use serde::{Deserialize, Serialize};
 
@@ -24,7 +26,7 @@ async fn create_account() -> Result<()> {
     let nickname = format!("testuser{}", rng.gen::<u64>());
     let new_user = NewUser {
         email: format!("{nickname}@mailinator.com"),
-        password: "paSSword0786(*&^)".to_owned(),
+        password: dotenv!("TEST_USER_PASSWORD").to_owned(),
         nickname,
     };
     let url = format!("{BASE_URL}/create_user");
@@ -35,8 +37,14 @@ async fn create_account() -> Result<()> {
     assert_eq!(status, StatusCode::CREATED);
 
     let db = connect().await?;
-
+    let new_db_user: Option<entity::users::Model> =
+        Users::find().one(&db).await.expect("error getting user");
     db.close().await?;
+    let new_db_user = new_db_user.expect("user not found");
+
+    assert_eq!(new_db_user.nickname, new_user.nickname);
+    assert_eq!(new_db_user.email, new_user.email);
+
     Ok(())
 }
 
