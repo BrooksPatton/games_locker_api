@@ -37,8 +37,11 @@ async fn create_account() -> Result<()> {
     assert_eq!(status, StatusCode::CREATED);
 
     let db = connect().await?;
-    let new_db_user: Option<entity::users::Model> =
-        Users::find().one(&db).await.expect("error getting user");
+    let new_db_user: Option<entity::users::Model> = Users::find()
+        .filter(entity::users::Column::Email.eq(&new_user.email))
+        .one(&db)
+        .await
+        .expect("error getting user");
     db.close().await?;
     let new_db_user = new_db_user.expect("user not found");
 

@@ -1,10 +1,8 @@
 use crate::{api, AppState};
-use axum::http::status::InvalidStatusCode;
 use axum::http::StatusCode;
-use axum::response::{IntoResponse, Result};
+use axum::response::Result;
 use axum::{extract::State, Json};
-use entity::prelude::Users;
-use sea_orm::{ActiveModelTrait, EntityTrait, Set};
+use sea_orm::{ActiveModelTrait, Set};
 use serde::{Deserialize, Serialize};
 
 pub async fn create_user(

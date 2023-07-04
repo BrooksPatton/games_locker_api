@@ -1,5 +1,4 @@
 use dotenvy_macro::dotenv;
-use eyre::Result;
 use games_locker::config::Config;
 use games_locker::run;
 use migration::MigratorTrait;

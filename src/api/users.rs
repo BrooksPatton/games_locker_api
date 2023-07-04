@@ -1,7 +1,6 @@
 use dotenvy_macro::dotenv;
 use eyre::Result;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
 const AUTH0_CLIENT_ID: &str = dotenv!("AUTH0_CLIENT_ID");
 const AUTH0_CONNECTION: &str = dotenv!("AUTH0_CONNECTION");
