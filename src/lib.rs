@@ -1,11 +1,11 @@
-use std::net::SocketAddr;
+pub mod config;
+pub mod db;
+mod routes;
 
 use config::Config;
 use eyre::Result;
 use routes::create_router;
-
-pub mod config;
-mod routes;
+use std::net::SocketAddr;
 
 pub async fn run(config: Config) -> Result<()> {
     let app = create_router(config.clone());
