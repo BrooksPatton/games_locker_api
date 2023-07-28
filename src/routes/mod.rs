@@ -1,4 +1,4 @@
-mod users;
+pub mod users;
 
 use axum::{routing::post, Router};
 use users::create_user;

@@ -1,3 +1,5 @@
+pub mod types;
+
 use axum::{extract::State, http::StatusCode};
 
 use crate::config::Config;
