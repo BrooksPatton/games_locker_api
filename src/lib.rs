@@ -1,7 +1,7 @@
 mod api;
 pub mod config;
 pub mod db;
-mod routes;
+pub mod routes;
 
 use config::Config;
 use eyre::Result;

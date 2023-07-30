@@ -5,6 +5,7 @@ use crate::types::new_user::CreateUser;
 use axum::http::StatusCode;
 use config::Config;
 use eyre::Result;
+use games_locker::routes::users::types::User;
 
 #[tokio::test]
 async fn should_create_user() -> Result<()> {
@@ -16,6 +17,9 @@ async fn should_create_user() -> Result<()> {
     let status = request.status();
 
     assert_eq!(status, StatusCode::CREATED);
+
+    let _created_user = request.json::<User>().await?;
+
     Ok(())
 }
 

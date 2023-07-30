@@ -1,6 +1,8 @@
 use dotenvy_macro::dotenv;
 use eyre::Result;
 
+use crate::routes::users::types::CreateAuth0User;
+
 pub async fn create_auth0_user(data: CreateAuth0UserData) -> Result<CreateAuth0UserResponse> {
     let url = format!("https://{}/dbconnections/signup", dotenv!("AUTH0_DOMAIN"));
     let client = reqwest::Client::new();
@@ -15,15 +17,10 @@ pub async fn create_auth0_user(data: CreateAuth0UserData) -> Result<CreateAuth0U
 
 #[derive(serde::Deserialize, serde::Serialize, Debug)]
 pub struct CreateAuth0UserResponse {
-    _id: String,
-    email_verified: String,
-    email: String,
-    username: String,
-    given_name: String,
-    family_name: String,
-    name: String,
-    nickname: String,
-    picture: String,
+    pub _id: String,
+    pub email_verified: bool,
+    pub email: String,
+    pub nickname: String,
 }
 
 #[derive(serde::Deserialize, serde::Serialize, Debug)]
@@ -47,5 +44,11 @@ impl CreateAuth0UserData {
             connection,
             nickname,
         }
+    }
+}
+
+impl From<CreateAuth0User> for CreateAuth0UserData {
+    fn from(value: CreateAuth0User) -> Self {
+        Self::new(value.email, value.password, value.nickname)
     }
 }
