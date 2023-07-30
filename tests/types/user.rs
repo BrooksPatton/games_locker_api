@@ -5,13 +5,13 @@ use rand::{
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
-pub struct CreateUser {
+pub struct TestUser {
     email: String,
     password: String,
     nickname: String,
 }
 
-impl CreateUser {
+impl TestUser {
     pub fn random() -> Self {
         let mut rng = thread_rng();
         let nickname = Alphanumeric.sample_string(&mut rng, 8);

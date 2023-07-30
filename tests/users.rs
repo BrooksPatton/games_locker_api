@@ -1,16 +1,15 @@
 mod config;
 mod types;
 
-use crate::types::new_user::CreateUser;
+use crate::types::user::{CreatedUser, TestUser};
 use axum::http::StatusCode;
 use config::Config;
 use eyre::Result;
-use games_locker::routes::users::types::User;
 
 #[tokio::test]
 async fn should_create_user() -> Result<()> {
     let config = Config::new();
-    let new_user = CreateUser::random();
+    let new_user = TestUser::random();
     let client = reqwest::Client::new();
     let url = format!("{}/users", &config.base_url);
     let request = client.post(url).json(&new_user).send().await?;
@@ -18,7 +17,7 @@ async fn should_create_user() -> Result<()> {
 
     assert_eq!(status, StatusCode::CREATED);
 
-    let _created_user = request.json::<User>().await?;
+    let _created_user = request.json::<CreatedUser>().await?;
 
     Ok(())
 }
