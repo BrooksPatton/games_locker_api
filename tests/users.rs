@@ -23,8 +23,21 @@ async fn should_create_user() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore = "tbd"]
-async fn should_log_in() {}
+async fn should_log_in() -> Result<()> {
+    let config = Config::new();
+    let new_user = TestUser::random();
+    let url = format!("{}/users/login", &config.base_url);
+    let client = reqwest::Client::new();
+    let response = client
+        .post(url)
+        .json(&new_user.build_login_user())
+        .send()
+        .await?;
+    let status = response.status();
+
+    assert_eq!(status, 200);
+    Ok(())
+}
 
 #[tokio::test]
 #[ignore = "tbd"]

@@ -1,3 +1,5 @@
+use dotenvy_macro::dotenv;
+use eyre::Result;
 use rand::{
     distributions::{Alphanumeric, DistString},
     thread_rng,
@@ -24,7 +26,17 @@ impl TestUser {
             nickname,
         }
     }
+
+    pub fn build_login_user(&self) -> LoginUser {
+        LoginUser {
+            email: &self.email,
+            password: &self.password,
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct CreatedUser {}
+pub struct LoginUser<'a> {
+    email: &'a str,
+    password: &'a str,
+}
