@@ -30,3 +30,5 @@ pub async fn create_user(
 
     Ok((StatusCode::CREATED, Json(user)))
 }
+
+pub async fn login() {}

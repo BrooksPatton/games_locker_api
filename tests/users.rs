@@ -1,10 +1,11 @@
 mod config;
 mod types;
 
-use crate::types::user::{CreatedUser, TestUser};
+use crate::types::user::TestUser;
 use axum::http::StatusCode;
 use config::Config;
 use eyre::Result;
+use games_locker::types::user::User;
 
 #[tokio::test]
 async fn should_create_user() -> Result<()> {
@@ -17,7 +18,7 @@ async fn should_create_user() -> Result<()> {
 
     assert_eq!(status, StatusCode::CREATED);
 
-    let _created_user = request.json::<CreatedUser>().await?;
+    let _created_user = request.json::<User>().await?;
 
     Ok(())
 }
@@ -36,6 +37,9 @@ async fn should_log_in() -> Result<()> {
     let status = response.status();
 
     assert_eq!(status, 200);
+
+    let _user = response.json::<User>().await?;
+
     Ok(())
 }
 
