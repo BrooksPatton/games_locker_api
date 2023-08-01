@@ -3,6 +3,8 @@ use entity::users::Model;
 use eyre::{bail, Result};
 use serde::{Deserialize, Serialize};
 
+use super::auth0_token::Auth0Token;
+
 #[derive(Deserialize, Serialize, Debug, Default)]
 pub struct User {
     id: Option<i32>,
@@ -11,6 +13,7 @@ pub struct User {
     nickname: Option<String>,
     _id: Option<String>,
     email_verified: Option<bool>,
+    pub auth0_token: Option<Auth0Token>,
 }
 
 impl User {

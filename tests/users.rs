@@ -38,7 +38,9 @@ async fn should_log_in() -> Result<()> {
 
     assert_eq!(status, 200);
 
-    let _user = response.json::<User>().await?;
+    let user = response.json::<User>().await?;
+
+    assert!(user.auth0_token.is_some());
 
     Ok(())
 }

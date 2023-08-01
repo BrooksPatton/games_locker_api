@@ -18,3 +18,5 @@ pub async fn create_auth0_user(data: User) -> Result<User> {
         .await?;
     Ok(user)
 }
+
+pub async fn login(data: User) -> Result<User> {}
