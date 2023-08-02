@@ -7,3 +7,11 @@ edition = "2021"
 
 [dependencies]
 serde = { version = "1.0.180", features = ["derive"] }
+entity = { path = "./entity" }
+migration = { path = "./migration" }
+
+[workspace]
+members = [
+  "entity",
+  "migration"
+]
