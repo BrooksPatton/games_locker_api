@@ -9,36 +9,42 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Players::Table)
+                    .table(Games::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Players::Id)
+                        ColumnDef::new(Games::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Players::Auth0Id).string().not_null())
-                    .col(ColumnDef::new(Players::Email).string().not_null())
-                    .col(ColumnDef::new(Players::Nickname).string().not_null())
+                    .col(ColumnDef::new(Games::Name).string().not_null())
+                    .col(
+                        ColumnDef::new(Games::OptimalSessionLengthId)
+                            .integer()
+                            .not_null(),
+                    )
+                    .foreign_key()
                     .to_owned(),
             )
             .await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+        // Replace the sample below with your own migration scripts
+        todo!();
+
         manager
-            .drop_table(Table::drop().table(Players::Table).to_owned())
+            .drop_table(Table::drop().table(Games::Table).to_owned())
             .await
     }
 }
 
 /// Learn more at https://docs.rs/sea-query#iden
 #[derive(Iden)]
-enum Players {
+enum Games {
     Table,
     Id,
-    Auth0Id,
-    Email,
-    Nickname,
+    Name,
+    OptimalSessionLengthId,
 }
