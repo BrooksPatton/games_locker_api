@@ -9,26 +9,16 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Games::Table)
+                    .table(Tags::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Games::Id)
+                        ColumnDef::new(Tags::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Games::Name).string().not_null())
-                    .col(
-                        ColumnDef::new(Games::OptimalSessionLengthId)
-                            .integer()
-                            .not_null(),
-                    )
-                    .foreign_key(
-                        ForeignKey::create()
-                            .from(Games::Table, Games::OptimalSessionLengthId)
-                            .to(OptimalSessionLength::Table, OptimalSessionLength::Id),
-                    )
+                    .col(ColumnDef::new(Tags::Name).string().not_null())
                     .to_owned(),
             )
             .await
@@ -36,22 +26,15 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Games::Table).to_owned())
+            .drop_table(Table::drop().table(Tags::Table).to_owned())
             .await
     }
 }
 
 /// Learn more at https://docs.rs/sea-query#iden
 #[derive(Iden)]
-enum Games {
+enum Tags {
     Table,
     Id,
     Name,
-    OptimalSessionLengthId,
-}
-
-#[derive(Iden)]
-enum OptimalSessionLength {
-    Table,
-    Id,
 }

@@ -9,6 +9,7 @@ edition = "2021"
 serde = { version = "1.0.180", features = ["derive"] }
 entity = { path = "./entity" }
 migration = { path = "./migration" }
+sea-orm = { version = "0.12.1", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"] }
 
 [workspace]
 members = [
