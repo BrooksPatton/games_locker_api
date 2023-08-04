@@ -6,34 +6,38 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Replace the sample below with your own migration scripts
-        todo!();
-
         manager
             .create_table(
                 Table::create()
-                    .table(Post::Table)
+                    .table(GameTags::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Post::Id)
+                        ColumnDef::new(GameTags::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Post::Title).string().not_null())
-                    .col(ColumnDef::new(Post::Text).string().not_null())
+                    .col(ColumnDef::new(GameTags::GameId).integer().not_null())
+                    .col(ColumnDef::new(GameTags::TagId).integer().not_null())
+                    .foreign_key(
+                        ForeignKey::create()
+                            .from(GameTags::Table, GameTags::GameId)
+                            .to(Games::Table, Games::Id),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .from(GameTags::Table, GameTags::TagId)
+                            .to(Tags::Table, Tags::Id),
+                    )
                     .to_owned(),
             )
             .await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Replace the sample below with your own migration scripts
-        todo!();
-
         manager
-            .drop_table(Table::drop().table(Post::Table).to_owned())
+            .drop_table(Table::drop().table(GameTags::Table).to_owned())
             .await
     }
 }
@@ -45,4 +49,16 @@ enum GameTags {
     Id,
     GameId,
     TagId,
+}
+
+#[derive(Iden)]
+enum Games {
+    Table,
+    Id,
+}
+
+#[derive(Iden)]
+enum Tags {
+    Table,
+    Id,
 }
