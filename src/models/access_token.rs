@@ -6,3 +6,9 @@ pub struct AccessToken {
     expires_in: String,
     token_type: String,
 }
+
+impl AccessToken {
+    pub fn get_bearer_token(&self) -> String {
+        format!("Bearer {}", &self.access_token)
+    }
+}
