@@ -1,4 +1,5 @@
 pub mod access_token;
+pub mod app_state;
 pub mod email;
 pub mod game;
 pub mod game_tag;
