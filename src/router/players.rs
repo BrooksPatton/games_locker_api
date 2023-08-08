@@ -25,7 +25,7 @@ pub async fn create_player(Json(player): Json<Player>) -> Result<StatusCode, (St
 pub async fn login(
     app_state: State<AppState>,
     Json(player): Json<Player>,
-) -> Result<Json<Player>, (StatusCode, String)> {
+) -> Result<Json<UpsertPlayer>, (StatusCode, String)> {
     let player = match Auth0PlayerLogin::try_from(player) {
         Ok(player) => player,
         Err(error) => {
@@ -36,6 +36,7 @@ pub async fn login(
     let player = api::auth0::login(&player)
         .await
         .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, format!("{error}")))?;
+    dbg!("logged in player:", &player);
     let player = UpsertPlayer::try_from(player).map_err(|error| {
         tracing::error!("Error converting into upsert player: {error}");
         (StatusCode::INTERNAL_SERVER_ERROR, format!("{error}"))

@@ -8,7 +8,7 @@ const AUTH0_CONNECTION: &str = dotenv!("AUTH0_CONNECTION");
 const AUTH0_SECRET: &str = dotenv!("AUTH0_SECRET");
 const AUTH0_DOMAIN: &str = dotenv!("AUTH0_DOMAIN");
 
-#[derive(Serialize, Deserialize, Default, Clone)]
+#[derive(Serialize, Deserialize, Default, Clone, Debug)]
 pub struct Player {
     pub auth0_access_token: Option<AccessToken>,
     pub auth0_id: Option<String>,
@@ -64,7 +64,7 @@ pub enum PlayerError<'a> {
     Auth0Signup,
 }
 
-#[derive(Serialize, Deserialize, Default, Clone)]
+#[derive(Serialize, Deserialize, Default, Clone, Debug)]
 pub struct Auth0PlayerLogin {
     grant_type: String,
     client_id: String,
@@ -143,5 +143,30 @@ impl TryFrom<Player> for UpsertPlayer {
             id: value.id,
             nickname,
         })
+    }
+}
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct LoggedInAuth0Player {
+    access_token: String,
+    id_token: String,
+    scope: String,
+    expires_in: u32,
+    token_type: String,
+}
+
+impl From<LoggedInAuth0Player> for Player {
+    fn from(value: LoggedInAuth0Player) -> Self {
+        Self {
+            auth0_access_token: todo!(),
+            auth0_id: todo!(),
+            email: todo!(),
+            epic_access_token: todo!(),
+            games: todo!(),
+            id: todo!(),
+            nickname: todo!(),
+            steam_access_token: todo!(),
+            password: todo!(),
+        }
     }
 }
