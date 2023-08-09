@@ -1,5 +1,6 @@
-use crate::models::player::{
-    Auth0PlayerLogin, Auth0SignupPlayer, LoggedInAuth0Player, Player, PlayerError,
+use crate::models::{
+    access_token::AccessToken,
+    player::{Auth0PlayerLogin, Auth0SignupPlayer, LoggedInAuth0Player, Player, PlayerError},
 };
 use dotenvy_macro::dotenv;
 use eyre::{bail, Result};
@@ -19,7 +20,7 @@ pub async fn signup(player: &Auth0SignupPlayer) -> Result<()> {
     }
 }
 
-pub async fn login(player: &Auth0PlayerLogin) -> Result<Player> {
+pub async fn login(player: &Auth0PlayerLogin) -> Result<AccessToken> {
     let url = format!("https://{AUTH0_DOMAIN}/oauth/token");
     let client = reqwest::Client::new();
     dbg!("player that is going to be logged in: ", &player);
@@ -44,7 +45,6 @@ pub async fn login(player: &Auth0PlayerLogin) -> Result<Player> {
             tracing::error!("Error converting responce to player: {error}");
             eyre::eyre!("There was a problem logging in, please try again later")
         })?;
-    dbg!("player after logging in: ", &player);
 
-    Ok(player)
+    Ok(player.into())
 }

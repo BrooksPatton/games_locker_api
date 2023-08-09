@@ -33,14 +33,13 @@ pub async fn login(
             return Err((StatusCode::BAD_REQUEST, format!("{error}")));
         }
     };
-    let player = api::auth0::login(&player)
+    let player_access_token = api::auth0::login(&player)
         .await
         .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, format!("{error}")))?;
-    dbg!("logged in player:", &player);
-    let player = UpsertPlayer::try_from(player).map_err(|error| {
-        tracing::error!("Error converting into upsert player: {error}");
-        (StatusCode::INTERNAL_SERVER_ERROR, format!("{error}"))
-    })?;
+    // let player = UpsertPlayer::try_from(player).map_err(|error| {
+    //     tracing::error!("Error converting into upsert player: {error}");
+    //     (StatusCode::INTERNAL_SERVER_ERROR, format!("{error}"))
+    // })?;
 
     Ok(Json(player))
 }

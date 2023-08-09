@@ -148,17 +148,23 @@ impl TryFrom<Player> for UpsertPlayer {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct LoggedInAuth0Player {
-    access_token: String,
-    id_token: String,
-    scope: String,
-    expires_in: u32,
-    token_type: String,
+    pub access_token: String,
+    pub id_token: String,
+    pub scope: String,
+    pub expires_in: u32,
+    pub token_type: String,
 }
 
 impl From<LoggedInAuth0Player> for Player {
     fn from(value: LoggedInAuth0Player) -> Self {
+        let access_token = AccessToken {
+            access_token: value.access_token,
+            expires_in: value.expires_in,
+            token_type: value.token_type,
+        };
+
         Self {
-            auth0_access_token: todo!(),
+            auth0_access_token: Some(access_token),
             auth0_id: todo!(),
             email: todo!(),
             epic_access_token: todo!(),
