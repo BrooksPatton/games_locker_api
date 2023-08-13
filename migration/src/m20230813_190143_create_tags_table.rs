@@ -1,4 +1,4 @@
-use super::tables::Games;
+use super::tables::Tags;
 use sea_orm_migration::prelude::*;
 
 #[derive(DeriveMigrationName)]
@@ -10,16 +10,16 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Games::Table)
+                    .table(Tags::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Games::Id)
+                        ColumnDef::new(Tags::Id)
                             .integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Games::Name).string().not_null())
+                    .col(ColumnDef::new(Tags::Name).string().not_null())
                     .to_owned(),
             )
             .await
@@ -27,7 +27,7 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Games::Table).to_owned())
+            .drop_table(Table::drop().table(Tags::Table).to_owned())
             .await
     }
 }

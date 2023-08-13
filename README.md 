@@ -1,0 +1,19 @@
+# Games Locker
+
+The games locker is meant to store games that I own and want to own. I can then use it to search for games that I want to play, and also help organize games to play with friends.
+
+## Features
+
+- [ ] As a player, I want to add one game at a time to the system
+- [ ] As a player, I want to import games from Steam
+- [ ] As a player, I want to import games from a CSV file
+- [ ] As a player, I want to search for one game
+- [ ] As a player, I want to see all games I own
+- [ ] As a player, I want to search for games that match a tag
+- [ ] As a player, I want to search for games that another player has
+- [ ] As a player, I want to get a choice of games to play if I'm not currently playing anything
+- [ ] As a player, I want to mark a game as never will play
+- [ ] As a player, when before I start playing a game I want to choose a goal for the game
+- [ ] As a player, when I meet the goal, I want to mark the game as completed. I can still replay the game later if I want
+- [ ] As a player, I want to be playing multiple types of games at the same time, a plot-based game, and a skill-based multiplayer game
+- [ ] As a player, I want to finish playing a game

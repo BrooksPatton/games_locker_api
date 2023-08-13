@@ -1,6 +1,7 @@
+use super::tags::Tag;
+
 pub struct Game {
-    pub id: i32,
-    pub name: String,
-    pub played: bool,
-    pub ignored: bool,
+    pub id: Option<i32>,
+    pub name: Option<String>,
+    pub tags: Option<Vec<Tag>>,
 }
